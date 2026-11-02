@@ -1,0 +1,109 @@
+###
+GET http://127.0.0.1:8000/jobs/
+Accept: application/json
+
+###
+POST http://127.0.0.1:8000/jobs/
+Content-Type: application/json
+
+{
+    "title": "React JS Developer Intern",
+    "company_name": "UST",
+    "location": "Thiruvananthapuram",
+    "job_type": "internship",
+    "experience": "Fresher",
+    "salary": "12000 per month",
+    "description": "We are looking for React JS Developer Interns to develop responsive user interfaces and work with backend APIs.",
+    "requirements": "Basic knowledge of HTML, CSS, JavaScript, React JS and REST APIs.",
+    "is_active": true
+}
+
+###
+GET http://127.0.0.1:8000/jobs/1/
+Accept: application/json
+
+###
+PUT http://127.0.0.1:8000/jobs/3/
+Content-Type: application/json
+
+{
+    "title": "Senior Python Django Developer",
+    "company_name": "Experion Technologies",
+    "location": "Kochi",
+    "job_type": "full_time",
+    "experience": "2 years",
+    "salary": "6 LPA - 8 LPA",
+    "description": "Looking for a Python Django Developer to develop and maintain web applications.",
+    "requirements": "Strong knowledge of Python, Django, Django REST Framework, MySQL and REST APIs.",
+    "is_active": true
+}
+
+###
+DELETE http://127.0.0.1:8000/jobs/3/
+
+###
+GET http://127.0.0.1:8000/applications/
+Accept: application/json
+
+
+###
+POST http://127.0.0.1:8000/applications/
+Content-Type: application/json
+
+{
+    "job_id": 2,
+    "applicant_name": "Anjali Menon",
+    "email": "anjali@gmail.com",
+    "cover_letter": "I am interested in the Python Full Stack Developer internship. I have knowledge of Python, Django and React.",
+    "resume_link": "https://example.com/anjali-resume.pdf"
+
+
+}
+
+###
+GET http://127.0.0.1:8000/applications/2/
+Accept: application/json
+
+
+###
+POST http://127.0.0.1:8000/applications/
+Content-Type: application/json
+
+{
+    "job_id": 1,
+    "applicant_name": "Ragendhu",
+    "email": "ragendhu@gmail.com",
+    "cover_letter": "I am interested in applying for this Python Django Developer position. I have knowledge of Python and Django REST Framework.",
+    "resume_link": "https://example.com/ragendhu-resume.pdf"
+}
+
+
+###
+POST http://127.0.0.1:8000/applications/
+Content-Type: application/json
+
+{
+    "job_id": 100,
+    "applicant_name": "Ragendhu",
+    "email": "ragendhu@gmail.com",
+    "cover_letter": "I am interested in this job.",
+    "resume_link": "https://example.com/ragendhu-resume.pdf"
+}
+
+###
+PUT http://127.0.0.1:8000/applications/2/evaluate/
+Content-Type: application/json
+
+{
+    "status": "shortlisted",
+    "remarks": "Good technical knowledge. Shortlisted for the next interview."
+}
+
+###
+PUT http://127.0.0.1:8000/applications/3/evaluate/
+Content-Type: application/json
+
+{
+    "status": "rejected",
+    "remarks": "Insufficient knowledge of Django REST Framework."
+}
