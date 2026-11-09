@@ -83,11 +83,11 @@ POST http://127.0.0.1:8000/applications/
 Content-Type: application/json
 
 {
-    "job_id": 100,
-    "applicant_name": "Ragendhu",
-    "email": "ragendhu@gmail.com",
+    "job_id": 1,
+    "applicant_name": "sana",
+    "email": "sana@gmail.com",
     "cover_letter": "I am interested in this job.",
-    "resume_link": "https://example.com/ragendhu-resume.pdf"
+    "resume_link": "https://example.com/sana-resume.pdf"
 }
 
 ###

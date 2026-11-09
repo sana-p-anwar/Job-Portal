@@ -52,9 +52,16 @@ class ApplicationSerializer(serializers.Serializer):
     def validate(self, validate_data):
 
         job_id = validate_data.get("job_id")
+        email = validate_data.get("email")
 
+        # Check whether job exists
         if not JobDB.objects.filter(id=job_id).exists():
-
             raise serializers.ValidationError("Job does not exist...!")
 
-        return validate_data    
+        # Check whether applicant already applied
+        if ApplicationDb.objects.filter(job_id=job_id, email=email).exists():
+            raise serializers.ValidationError(
+                "You have already applied for this job...!"
+            )
+
+        return validate_data
