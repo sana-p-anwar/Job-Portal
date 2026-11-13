@@ -1,19 +1,11 @@
-
 from django.db import models
+from django.contrib.auth.models import User
 
-# Create your models here.
-
-# schema: JobDB
-# fields: title, company_name, location, job_type,
-# experience, salary, description, requirements,
-# published_date, is_active
 
 class JobDB(models.Model):
 
     title = models.CharField(max_length=200)
-
     company_name = models.CharField(max_length=200)
-
     location = models.CharField(max_length=200)
 
     JOB_TYPE_CHOICES = (
@@ -30,20 +22,44 @@ class JobDB(models.Model):
     )
 
     experience = models.CharField(max_length=100)
-
     salary = models.CharField(max_length=100)
-
     description = models.TextField()
-
     requirements = models.TextField()
 
     published_date = models.DateTimeField(auto_now_add=True)
-
     is_active = models.BooleanField(default=True)
+    created_by = models.ForeignKey(
+    User,
+    on_delete=models.CASCADE,
+    related_name="jobs_created",
+    null=True,
+    blank=True
+)
+  
+
+
+
+    def __str__(self):
+        return self.title
 
 class ApplicationDb(models.Model):
     
-    job_id = models.IntegerField()
+    job = models.ForeignKey(
+    JobDB,
+    on_delete=models.CASCADE,
+    related_name="applications",
+    null=True,
+    blank=True
+    )
+    applicant = models.ForeignKey(
+    User,
+    on_delete=models.CASCADE,
+    related_name="job_applications",
+    null=True,
+    blank=True
+    )
+
+ 
 
     applicant_name = models.CharField(max_length=100)
 
@@ -68,3 +84,6 @@ class ApplicationDb(models.Model):
 
     application_date = models.DateTimeField(auto_now_add=True)
     remarks = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return self.applicant_name

@@ -1,30 +1,61 @@
+
+###
+# Register a new user
+
+POST http://127.0.0.1:8000/register/
+Content-Type: application/json
+
+{
+    "username": "anwar",
+    "email": "anwar@gmail.com",
+    "password": "anwar@12345"
+}
+
+
+###
+GET http://127.0.0.1:8000/register/
+Accept: application/json
+
 ###
 GET http://127.0.0.1:8000/jobs/
 Accept: application/json
+Authorization: Basic rithu:rithu@12345
 
 ###
 POST http://127.0.0.1:8000/jobs/
 Content-Type: application/json
+Authorization: Basic tara:tara@12345
 
 {
-    "title": "React JS Developer Intern",
-    "company_name": "UST",
-    "location": "Thiruvananthapuram",
-    "job_type": "internship",
-    "experience": "Fresher",
-    "salary": "12000 per month",
-    "description": "We are looking for React JS Developer Interns to develop responsive user interfaces and work with backend APIs.",
-    "requirements": "Basic knowledge of HTML, CSS, JavaScript, React JS and REST APIs.",
+    "title": "Backend Developer",
+    "company_name": "tcs",
+    "location": "Bangalore",
+    "job_type": "full_time",
+    "experience": "5 year",
+    "salary": "4 LPA - 6 LPA",
+    "description": "Develop backend services and maintain REST API integrations.",
+    "requirements": "Python, Django, REST API, PostgreSQL, Git",
     "is_active": true
 }
 
 ###
-GET http://127.0.0.1:8000/jobs/1/
-Accept: application/json
+DELETE http://127.0.0.1:8000/users/
+Content-Type: application/json
+
+{
+    "id": 3
+}
 
 ###
-PUT http://127.0.0.1:8000/jobs/3/
+
+GET http://127.0.0.1:8000/jobs/5/
+Accept: application/json
+Authorization: Basic rithu:rithu@12345
+
+###
+PUT http://127.0.0.1:8000/jobs/5/
 Content-Type: application/json
+Authorization: Basic rithu:rithu@12345
 
 {
     "title": "Senior Python Django Developer",
@@ -38,72 +69,49 @@ Content-Type: application/json
     "is_active": true
 }
 
-###
-DELETE http://127.0.0.1:8000/jobs/3/
+
+DELETE http://127.0.0.1:8000/jobs/9/
+Accept: application/json
+Authorization: Basic sana:sana@12345
+
+# Only the authenticated user who created the job can delete it.
+
 
 ###
 GET http://127.0.0.1:8000/applications/
 Accept: application/json
+Authorization: Basic anwar:anwar@12345
 
 
 ###
 POST http://127.0.0.1:8000/applications/
 Content-Type: application/json
+Authorization: Basic anwar:anwar@12345
 
 {
-    "job_id": 2,
-    "applicant_name": "Anjali Menon",
-    "email": "anjali@gmail.com",
+    "job_id": 5,
+    "applicant_name": "anwar",
+    "username": "anwar",
+    "email": "anwar@gmail.com",
     "cover_letter": "I am interested in the Python Full Stack Developer internship. I have knowledge of Python, Django and React.",
-    "resume_link": "https://example.com/anjali-resume.pdf"
-
-
-}
-
-###
-GET http://127.0.0.1:8000/applications/2/
-Accept: application/json
-
-
-###
-POST http://127.0.0.1:8000/applications/
-Content-Type: application/json
-
-{
-    "job_id": 1,
-    "applicant_name": "Ragendhu",
-    "email": "ragendhu@gmail.com",
-    "cover_letter": "I am interested in applying for this Python Django Developer position. I have knowledge of Python and Django REST Framework.",
-    "resume_link": "https://example.com/ragendhu-resume.pdf"
-}
-
-
-###
-POST http://127.0.0.1:8000/applications/
-Content-Type: application/json
-
-{
-    "job_id": 1,
-    "applicant_name": "sana",
-    "email": "sana@gmail.com",
-    "cover_letter": "I am interested in this job.",
     "resume_link": "https://example.com/sana-resume.pdf"
+
+
 }
 
 ###
-PUT http://127.0.0.1:8000/applications/2/evaluate/
-Content-Type: application/json
+DELETE http://127.0.0.1:8000/applications/8/
+Authorization: Basic tara:tara@12345
 
-{
-    "status": "shortlisted",
-    "remarks": "Good technical knowledge. Shortlisted for the next interview."
-}
+
 
 ###
-PUT http://127.0.0.1:8000/applications/3/evaluate/
+PUT http://127.0.0.1:8000/applications/10/evaluate/
 Content-Type: application/json
+Authorization: Basic rithu:rithu@12345
 
 {
-    "status": "rejected",
-    "remarks": "Insufficient knowledge of Django REST Framework."
+    "status": "shortlisted"
 }
+
+

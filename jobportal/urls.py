@@ -21,12 +21,17 @@ from jobapp import views
 urlpatterns = [
     path("admin/", admin.site.urls),
 
+    path("register/", views.SignUpView.as_view()),
+
     path("jobs/", views.JobListCreateView.as_view()),
+
+    path("users/", views.UserListDeleteView.as_view()),
+
     path("jobs/<int:pk>/", views.JobRetrieveUpdateDeleteView.as_view()),
+
     path("applications/", views.ApplicationListCreateView.as_view()),
+
     path("applications/<int:pk>/", views.ApplicationRetrieveUpdateDeleteView.as_view()),
-    path(
-    "applications/<int:pk>/evaluate/",
-    views.EvaluateApplicationView.as_view()
-),
+
+    path("applications/<int:pk>/evaluate/", views.EvaluateApplicationView.as_view()),
 ]

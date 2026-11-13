@@ -1,38 +1,28 @@
 from rest_framework import serializers
 from jobapp.models import JobDB
 from jobapp.models import ApplicationDb
+from django.contrib.auth.models import User
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password']
+
+    def create(self, validated_data):
+        return User.objects.create_user(**validated_data)
+
+class JobSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = JobDB
+        fields = "__all__"
+        read_only_fields = ["id", "published_date", "created_by"]
 
 
-
-class JobSerializer(serializers.Serializer):
-
-    id = serializers.IntegerField(read_only=True)
-
-    title = serializers.CharField(max_length=200)
-
-    company_name = serializers.CharField(max_length=200)
-
-    location = serializers.CharField(max_length=200)
-
-    job_type = serializers.ChoiceField(
-        choices=JobDB.JOB_TYPE_CHOICES,
-        default="full_time"
-    )
-
-    experience = serializers.CharField(max_length=100)
-
-    salary = serializers.CharField(max_length=100)
-
-    description = serializers.CharField(max_length=1000)
-
-    requirements = serializers.CharField(max_length=1000)
-
-    published_date = serializers.DateTimeField(read_only=True)
-
-    is_active = serializers.BooleanField(default=True)
 
 class ApplicationSerializer(serializers.Serializer):
-    
+
     id = serializers.IntegerField(read_only=True)
 
     job_id = serializers.IntegerField()
@@ -52,16 +42,38 @@ class ApplicationSerializer(serializers.Serializer):
     def validate(self, validate_data):
 
         job_id = validate_data.get("job_id")
-        email = validate_data.get("email")
 
         # Check whether job exists
-        if not JobDB.objects.filter(id=job_id).exists():
+        try:
+            job = JobDB.objects.get(id=job_id)
+        except JobDB.DoesNotExist:
             raise serializers.ValidationError("Job does not exist...!")
 
+        # Check whether job creator is applying
+        applicant = self.context["request"].user
+
+        if job.created_by == applicant:
+            raise serializers.ValidationError(
+                "You cannot apply for your own job...!"
+            )
+
         # Check whether applicant already applied
-        if ApplicationDb.objects.filter(job_id=job_id, email=email).exists():
+        if ApplicationDb.objects.filter(job=job, applicant=applicant).exists():
             raise serializers.ValidationError(
                 "You have already applied for this job...!"
             )
 
         return validate_data
+
+    def create(self, validated_data):
+
+        job_id = validated_data.pop("job_id")
+        job = JobDB.objects.get(id=job_id)
+
+        applicant = validated_data.pop("applicant")
+
+        return ApplicationDb.objects.create(
+            job=job,
+            applicant=applicant,
+            **validated_data
+        )
